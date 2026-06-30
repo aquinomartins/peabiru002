@@ -2,13 +2,13 @@
   const CHARACTER_SHEETS = {
     initialCrowd: {
       key: 'initialCrowd',
-      src: '/characters/personas.png',
+      src: '/characters/open-peeps-sheet.png',
       cols: 15,
       rows: 7,
     },
     participatory: {
       key: 'participatory',
-      src: '/characters/open-peeps-sheet.png',
+      src: '/characters/personas.png',
       cols: 15,
       rows: 7,
     },
