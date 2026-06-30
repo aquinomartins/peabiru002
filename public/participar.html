@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Participar — Nuvens Holandesas</title>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body class="participant-page">
+    <main class="participant-shell">
+      <header>
+        <p class="eyebrow">Visitante</p>
+        <h1>Escolha um personagem-agente</h1>
+        <p>escolha um dos três personagens de <code>personas2.png</code> e envie sua contribuição para a correria coletiva da exposição.</p>
+      </header>
+
+      <section class="panel object-choice" aria-label="Escolha de personagem">
+        <p class="rule-note">cada visitante controla apenas um personagem participativo por vez; a multidão inicial da exposição usa outra spritesheet e permanece separada no código.</p>
+        <div class="object-cards" id="objectCards"></div>
+        <div class="meta"><span id="choiceLabel">nenhum personagem escolhido</span><span id="status">conectando…</span></div>
+      </section>
+
+      <section class="panel controls" id="controlPanel" aria-label="Controles do personagem" hidden>
+        <label>posição horizontal <input id="x" type="range" min="0" max="1" step="0.01" value="0.5" /></label>
+        <label>zona / altura permitida <input id="y" type="range" min="0" max="1" step="0.01" value="0.74" /></label>
+        <label>ritmo <input id="rhythm" type="range" min="0.12" max="1.4" step="0.01" value="0.7" /></label>
+        <label>intensidade do campo <input id="fieldStrength" type="range" min="0.18" max="1" step="0.01" value="0.55" /></label>
+        <label>velocidade lenta <input id="speed" type="range" min="0" max="0.55" step="0.01" value="0.24" /></label>
+        <label>direção
+          <select id="direction">
+            <option value="right">direita</option>
+            <option value="left">esquerda</option>
+          </select>
+        </label>
+        <button id="createObject" class="button primary" type="button">Ativar personagem</button>
+      </section>
+    </main>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/shared.js"></script>
+    <script src="/js/participant.js"></script>
+  </body>
+</html>

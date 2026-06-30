@@ -1,0 +1,130 @@
+:root {
+  --ink: #20231f;
+  --muted: #62685f;
+  --paper: #eee9dd;
+  --panel: rgba(250, 247, 238, 0.82);
+  --line: rgba(50, 54, 48, 0.18);
+  --accent: #5f6d63;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--ink);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: linear-gradient(180deg, #dce5e7 0%, #e8e0cf 70%, #9a966f 100%);
+}
+h1 { font-family: Georgia, "Times New Roman", serif; font-weight: 400; letter-spacing: -0.04em; margin: 0; }
+.eyebrow { text-transform: uppercase; letter-spacing: 0.18em; font-size: 0.72rem; color: var(--muted); margin: 0 0 0.8rem; }
+.home-page { display: grid; place-items: center; padding: 1.2rem; }
+.home-card, .participant-shell { width: min(92vw, 720px); }
+.home-card { padding: clamp(2rem, 7vw, 5rem); border: 1px solid var(--line); background: var(--panel); backdrop-filter: blur(18px); box-shadow: 0 28px 90px rgba(35, 38, 30, 0.16); }
+.home-card h1 { font-size: clamp(3rem, 9vw, 7rem); line-height: 0.85; }
+.intro { max-width: 34rem; color: var(--muted); font-size: 1.1rem; line-height: 1.65; }
+.home-actions { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 2rem; }
+.button { border: 1px solid var(--line); border-radius: 999px; padding: 0.95rem 1.2rem; text-decoration: none; cursor: pointer; font: inherit; transition: transform 160ms ease, background 160ms ease; }
+.button:active { transform: translateY(1px); }
+.primary { background: var(--ink); color: #f6f1e7; }
+.secondary { background: rgba(255,255,255,0.28); color: var(--ink); }
+.participant-page { padding: 1rem; }
+.participant-shell { margin: 0 auto; padding: 1.2rem 0 3rem; }
+.participant-shell h1 { font-size: clamp(2.35rem, 13vw, 4.6rem); }
+.participant-shell header p:not(.eyebrow) { color: var(--muted); line-height: 1.5; }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 24px; padding: 1rem; margin: 1rem 0; box-shadow: 0 18px 60px rgba(36, 39, 31, 0.09); }
+label { display: grid; gap: 0.55rem; color: var(--muted); font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.11em; }
+textarea { width: 100%; border: 1px solid var(--line); border-radius: 18px; padding: 1rem; resize: vertical; background: rgba(255,255,255,0.45); color: var(--ink); font: 1.05rem/1.4 Georgia, serif; }
+.meta { display: flex; justify-content: space-between; color: var(--muted); font-size: 0.8rem; margin: 0.5rem 0 1rem; }
+.controls { display: grid; gap: 1rem; }
+input[type="range"] { width: 100%; accent-color: var(--accent); }
+.exhibition-page { overflow: hidden; background: #d8e2e5; }
+#scene { display: block; width: 100vw; height: 100vh; }
+.exhibition-caption { position: fixed; left: 1.4rem; bottom: 1.2rem; color: rgba(31,35,30,0.34); font-family: Georgia, serif; font-size: 0.82rem; letter-spacing: 0.08em; pointer-events: none; text-shadow: 0 1px 18px rgba(244,239,222,0.42); }
+@media (max-width: 560px) {
+  .home-actions, .button { width: 100%; text-align: center; justify-content: center; }
+  .panel { border-radius: 20px; }
+}
+.connection-status {
+  position: fixed;
+  right: 1.2rem;
+  bottom: 1.2rem;
+  max-width: min(22rem, calc(100vw - 2.4rem));
+  padding: 0.55rem 0.75rem;
+  border: 1px solid rgba(50, 54, 48, 0.16);
+  border-radius: 999px;
+  background: rgba(250, 247, 238, 0.62);
+  color: rgba(31, 35, 30, 0.58);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  pointer-events: none;
+  backdrop-filter: blur(10px);
+}
+.connection-status[hidden] { display: none; }
+.object-choice { display: grid; gap: 1rem; }
+.rule-note { margin: 0; color: var(--muted); font-size: 0.86rem; line-height: 1.5; }
+.object-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.85rem; }
+.object-card {
+  display: grid;
+  gap: 0.55rem;
+  min-height: 12rem;
+  padding: 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.3);
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+.object-card:hover, .object-card.is-selected { transform: translateY(-2px); border-color: rgba(32, 35, 31, 0.44); background: rgba(255, 255, 255, 0.52); }
+.object-card img { width: 100%; height: 7.4rem; object-fit: contain; filter: drop-shadow(0 14px 18px rgba(32, 28, 22, 0.18)); }
+.object-card strong { font-family: Georgia, "Times New Roman", serif; font-size: 1.1rem; font-weight: 400; }
+.object-card span { color: var(--muted); font-size: 0.75rem; line-height: 1.35; }
+.controls[hidden] { display: none; }
+@media (max-width: 680px) {
+  .object-cards { grid-template-columns: 1fr; }
+  .object-card { min-height: auto; grid-template-columns: 7rem 1fr; align-items: center; }
+  .object-card img { grid-row: span 2; height: 6rem; }
+}
+select {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.8rem 1rem;
+  background: rgba(255, 255, 255, 0.42);
+  color: var(--ink);
+  font: inherit;
+}
+.character-card { align-content: start; }
+.character-glyph {
+  display: block;
+  width: 100%;
+  height: 7.4rem;
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 50% 30%, rgba(246,241,222,0.9) 0 8%, transparent 9%),
+    radial-gradient(ellipse at 50% 48%, currentColor 0 18%, transparent 19%),
+    radial-gradient(ellipse at 50% 62%, color-mix(in srgb, currentColor 78%, white) 0 16%, transparent 17%),
+    radial-gradient(ellipse at 50% 84%, rgba(32,28,22,0.16) 0 34%, transparent 35%),
+    linear-gradient(180deg, rgba(255,255,255,0.3), rgba(255,255,255,0.06));
+  filter: drop-shadow(0 14px 18px rgba(32, 28, 22, 0.16));
+}
+.character-glyph--walker { color: #58765a; }
+.character-glyph--watcher { color: #4e7881; }
+.character-glyph--carrier { color: #8a7040; }
+@media (max-width: 680px) {
+  .character-glyph { grid-row: span 2; height: 6rem; }
+}
+.persona-preview {
+  display: block;
+  width: 100%;
+  height: 7.4rem;
+  border-radius: 18px;
+  background-repeat: no-repeat;
+  background-size: 1500% 700%;
+  background-position: calc(var(--sprite-x) * 100% / 14) calc(var(--sprite-y) * 100% / 6);
+  filter: drop-shadow(0 14px 18px rgba(32, 28, 22, 0.16));
+}
+@media (max-width: 680px) {
+  .persona-preview { grid-row: span 2; height: 6rem; }
+}
