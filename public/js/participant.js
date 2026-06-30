@@ -9,39 +9,19 @@ const controls = ['x', 'y', 'speed', 'rhythm', 'fieldStrength', 'direction'].red
   return acc;
 }, {});
 
-const PERSONA_SHEET = { src: '/assets/characters/open-peeps-sheet.png', cols: 15, rows: 7 };
-const PERSONA_COUNT = PERSONA_SHEET.cols * PERSONA_SHEET.rows;
-const CHARACTER_PRESETS = [
-  { type: 'persona_01', note: 'contribuição do público / deslocamento contínuo', speed: 0.3, rhythm: 0.8, field: 0.45, hue: 126 },
-  { type: 'persona_02', note: 'contribuição do público / presença lenta', speed: 0.16, rhythm: 0.55, field: 0.68, hue: 194 },
-  { type: 'persona_03', note: 'contribuição do público / travessia densa', speed: 0.24, rhythm: 0.65, field: 0.74, hue: 45 },
-];
-const CHARACTERS = createRandomCharacters();
+const { CHARACTER_SHEETS, PARTICIPANT_CHARACTERS } = window.CorreriaCharacters;
+const PERSONA_SHEET = CHARACTER_SHEETS.participatory;
+const CHARACTERS = createCharacters();
 const PARTICIPANT_ZONE = { xMin: 0.08, xMax: 0.92, yMin: 0.52, yMax: 0.94 };
 let selectedType = null;
 let activeCharacter = null;
 
-function randomSpriteIndexes(count) {
-  const indexes = Array.from({ length: PERSONA_COUNT }, (_, index) => index);
-  for (let index = indexes.length - 1; index > 0; index -= 1) {
-    const randomIndex = Math.floor(Math.random() * (index + 1));
-    [indexes[index], indexes[randomIndex]] = [indexes[randomIndex], indexes[index]];
-  }
-  return indexes.slice(0, count);
-}
-function createRandomCharacters() {
-  const spriteIndexes = randomSpriteIndexes(CHARACTER_PRESETS.length);
-  return CHARACTER_PRESETS.reduce((characters, preset, index) => {
-    const spriteIndex = spriteIndexes[index];
-    characters[preset.type] = {
-      ...preset,
-      label: `Persona ${String(spriteIndex + 1).padStart(3, '0')}`,
-      spriteIndex,
-    };
+function createCharacters() {
+  return PARTICIPANT_CHARACTERS.reduce((characters, character) => {
+    characters[character.type] = { ...character };
     return characters;
   }, {});
 }
-
 function setStatus(message) { statusEl.textContent = message; }
 function selectedRules() { return CHARACTERS[selectedType] || CHARACTERS.persona_01; }
 function spritePreviewStyle(spriteIndex) {
