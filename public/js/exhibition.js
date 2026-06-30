@@ -3,10 +3,8 @@ const ctx = canvas.getContext('2d');
 const socket = window.Nuvens.createSocket();
 const connectionStatus = document.querySelector('#connectionStatus');
 
-const SHEETS = {
-  initialCrowd: { src: '/assets/characters/personas.png', rows: 15, cols: 7 },
-  participatory: { src: '/assets/characters/open-peeps-sheet.png', rows: 15, cols: 7 },
-};
+const { CHARACTER_SHEETS } = window.CorreriaCharacters;
+const SHEETS = CHARACTER_SHEETS;
 const PARTICIPANT_LIMIT = 80;
 const EVAPORATION_TIME = 1000 * 60 * 2;
 
@@ -93,11 +91,11 @@ function getSheetCell(source, spriteIndex) {
   if (!sheet?.image.complete || sheet.image.naturalWidth === 0) return null;
   const { rows, cols } = sheet.config;
   const index = clamp(spriteIndex, 0, rows * cols - 1, 0);
-  const rectWidth = sheet.image.naturalWidth / rows;
-  const rectHeight = sheet.image.naturalHeight / cols;
+  const rectWidth = sheet.image.naturalWidth / cols;
+  const rectHeight = sheet.image.naturalHeight / rows;
   return [
-    (index % rows) * rectWidth,
-    (index / rows | 0) * rectHeight,
+    (index % cols) * rectWidth,
+    (index / cols | 0) * rectHeight,
     rectWidth,
     rectHeight,
   ];
@@ -107,7 +105,7 @@ function createInitialPeeps() {
   const sheet = sheets.get('initialCrowd');
   if (!sheet?.image.complete || sheet.image.naturalWidth === 0) return;
   allPeeps.length = 0;
-  const total = sheet.config.rows * sheet.config.cols;
+  const total = sheet.config.cols * sheet.config.rows;
   for (let i = 0; i < total; i += 1) {
     allPeeps.push(new Peep({
       source: 'initialCrowd',
@@ -200,7 +198,7 @@ function normalizeParticipant(character) {
   return {
     id: character.id,
     source: 'participatory',
-    spriteIndex: clamp(character.spriteIndex, 0, 104, 0),
+    spriteIndex: clamp(character.spriteIndex, 0, SHEETS.participatory.cols * SHEETS.participatory.rows - 1, 0),
     opacity: clamp(character.opacity, 0, 1, 0.96),
     createdAt: character.createdAt || Date.now(),
     life: clamp(character.life, 1000 * 60 * 4, 1000 * 60 * 20, 1000 * 60 * 8),

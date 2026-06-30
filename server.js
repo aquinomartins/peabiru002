@@ -3,7 +3,7 @@ const http = require('http');
 const path = require('path');
 const { Server } = require('socket.io');
 const { OBJECT_PNG_ASSETS } = require('./objectPngAssets');
-const { CHARACTER_PNG_ASSETS } = require('./characterPngAssets');
+const { CHARACTER_SHEETS, CHARACTER_TYPES } = require('./public/js/characters');
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'production';
 
@@ -24,16 +24,12 @@ const OBJECT_TTL = 1000 * 60 * 9;
 const CHARACTER_TTL_MIN = 1000 * 60 * 5;
 const CHARACTER_TTL_MAX = 1000 * 60 * 12;
 const CHARACTER_TTL = 1000 * 60 * 8;
+const PARTICIPATORY_SPRITE_MAX = CHARACTER_SHEETS.participatory.cols * CHARACTER_SHEETS.participatory.rows - 1;
 const EVAPORATION_TIME = 1000 * 60 * 2;
 const ZONES = {
   upper: { xMin: 0.05, xMax: 0.95, yMin: 0.05, yMax: 0.38 },
   middle: { xMin: 0.08, xMax: 0.92, yMin: 0.30, yMax: 0.65 },
   lower: { xMin: 0.08, xMax: 0.92, yMin: 0.58, yMax: 0.92 },
-};
-const CHARACTER_TYPES = {
-  persona_01: { zone: 'lower', scaleMin: 0.42, scaleMax: 0.9, speedMin: 0.08, speedMax: 0.55, rhythmMin: 0.35, rhythmMax: 1.4, fieldMin: 0.18, fieldMax: 0.85, radiusMin: 0.07, radiusMax: 0.18, spriteIndex: 12, hue: 126 },
-  persona_02: { zone: 'lower', scaleMin: 0.42, scaleMax: 0.9, speedMin: 0.04, speedMax: 0.42, rhythmMin: 0.25, rhythmMax: 1.15, fieldMin: 0.22, fieldMax: 1, radiusMin: 0.1, radiusMax: 0.24, spriteIndex: 44, hue: 194 },
-  persona_03: { zone: 'lower', scaleMin: 0.42, scaleMax: 0.9, speedMin: 0.05, speedMax: 0.5, rhythmMin: 0.25, rhythmMax: 1.25, fieldMin: 0.2, fieldMax: 1, radiusMin: 0.09, radiusMax: 0.24, spriteIndex: 81, hue: 45 },
 };
 const OBJECT_TYPES = {
   green_bundle: { zone: 'lower', scaleMin: 0.42, scaleMax: 1.28, rotationMin: -18, rotationMax: 18, opacityMin: 0.45, opacityMax: 0.95 },
@@ -56,18 +52,6 @@ const agents = new Map();
 const objects = new Map();
 const characters = new Map();
 const rateBuckets = new Map();
-
-app.get('/assets/characters/:characterName.png', (req, res) => {
-  const asset = CHARACTER_PNG_ASSETS[req.params.characterName];
-  if (!asset) {
-    res.status(404).end();
-    return;
-  }
-  res
-    .type('png')
-    .set('Cache-Control', 'public, max-age=31536000, immutable')
-    .send(Buffer.from(asset, 'base64'));
-});
 
 app.get('/assets/objects/:objectName.png', (req, res) => {
   const asset = OBJECT_PNG_ASSETS[req.params.objectName];
@@ -152,7 +136,7 @@ function validateCharacterPayload(payload = {}, existing = null) {
     type: type || 'persona_01',
     spriteKey: type || 'persona_01',
     spriteSource: 'personas',
-    spriteIndex: clamp(source.spriteIndex, 0, 104, existing?.spriteIndex ?? config.spriteIndex),
+    spriteIndex: clamp(source.spriteIndex, 0, PARTICIPATORY_SPRITE_MAX, existing?.spriteIndex ?? config.spriteIndex),
     x,
     y,
     targetX: clamp(source.targetX, zone.xMin, zone.xMax, existing?.targetX ?? x),
