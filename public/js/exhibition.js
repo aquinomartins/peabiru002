@@ -7,6 +7,10 @@ const { CHARACTER_SHEETS } = window.CorreriaCharacters;
 const SHEETS = CHARACTER_SHEETS;
 const PARTICIPANT_LIMIT = 80;
 const EVAPORATION_TIME = 1000 * 60 * 2;
+const INITIAL_CROWD_MULTIPLIER = 3;
+const CHARACTER_DISPLAY_SCALE = 1.25;
+const CROWD_TOP_RATIO = 0.38;
+const CROWD_BOTTOM_RATIO = 0.94;
 
 const sheets = new Map();
 const allPeeps = [];
@@ -56,6 +60,7 @@ class Peep {
     this.y = 0;
     this.anchorY = 0;
     this.scaleX = 1;
+    this.displayScale = CHARACTER_DISPLAY_SCALE;
     this.progress = 0;
     this.timeScale = 1;
     this.opacity = 1;
@@ -74,7 +79,7 @@ class Peep {
     context.save();
     context.globalAlpha = this.opacity * fade;
     context.translate(this.x, y);
-    context.scale(this.scaleX, 1);
+    context.scale(this.scaleX * this.displayScale, this.displayScale);
     context.drawImage(this.image, ...this.rect, 0, 0, this.width, this.height);
     context.restore();
   }
@@ -106,12 +111,14 @@ function createInitialPeeps() {
   if (!sheet?.image.complete || sheet.image.naturalWidth === 0) return;
   allPeeps.length = 0;
   const total = sheet.config.cols * sheet.config.rows;
-  for (let i = 0; i < total; i += 1) {
-    allPeeps.push(new Peep({
-      source: 'initialCrowd',
-      image: sheet.image,
-      rect: getSheetCell('initialCrowd', i),
-    }));
+  for (let cycle = 0; cycle < INITIAL_CROWD_MULTIPLIER; cycle += 1) {
+    for (let i = 0; i < total; i += 1) {
+      allPeeps.push(new Peep({
+        source: 'initialCrowd',
+        image: sheet.image,
+        rect: getSheetCell('initialCrowd', i),
+      }));
+    }
   }
   initialCrowdReady = true;
   resetCrowd();
@@ -131,17 +138,21 @@ function loadSheets() {
 
 function resetPeep(peep, { startProgress = 0 } = {}) {
   const direction = Math.random() > 0.5 ? 1 : -1;
-  const offsetY = 100 - 250 * easePower2In(Math.random());
-  const startY = height - peep.height + offsetY;
+  const scaledWidth = peep.width * CHARACTER_DISPLAY_SCALE;
+  const scaledHeight = peep.height * CHARACTER_DISPLAY_SCALE;
+  const verticalDepth = easePower2In(Math.random());
+  const minTop = height * CROWD_TOP_RATIO;
+  const maxTop = Math.max(minTop, height * CROWD_BOTTOM_RATIO - scaledHeight);
+  const startY = minTop + (maxTop - minTop) * verticalDepth;
   let startX;
   let endX;
 
   if (direction === 1) {
-    startX = -peep.width;
+    startX = -scaledWidth;
     endX = width;
     peep.scaleX = 1;
   } else {
-    startX = width + peep.width;
+    startX = width + scaledWidth;
     endX = 0;
     peep.scaleX = -1;
   }
@@ -295,7 +306,8 @@ function dissolveFactor(character, now) {
   return Math.min(ttlFade, removalFade);
 }
 function drawBackground() {
-  ctx.clearRect(0, 0, width, height);
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, 0, width, height);
 }
 function render(nowMs) {
   const dt = Math.min(0.08, (nowMs - lastTime) / 1000);
