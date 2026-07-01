@@ -15,15 +15,15 @@
   };
 
   const PARTICIPANT_CHARACTERS = [
-    { type: 'persona_01', label: 'Persona 001', note: 'contribuição do público / deslocamento contínuo', speed: 0.3, rhythm: 0.8, field: 0.45, hue: 126, spriteIndex: 12 },
-    { type: 'persona_02', label: 'Persona 002', note: 'contribuição do público / presença lenta', speed: 0.16, rhythm: 0.55, field: 0.68, hue: 194, spriteIndex: 44 },
-    { type: 'persona_03', label: 'Persona 003', note: 'contribuição do público / travessia densa', speed: 0.24, rhythm: 0.65, field: 0.74, hue: 45, spriteIndex: 81 },
+    { type: 'persona_01', label: 'Persona 001', note: 'contribuição do público / deslocamento contínuo', speed: 3, rhythm: 0.8, field: 0.45, hue: 126, spriteIndex: 12 },
+    { type: 'persona_02', label: 'Persona 002', note: 'contribuição do público / presença lenta', speed: 16, rhythm: 0.55, field: 0.68, hue: 194, spriteIndex: 44 },
+    { type: 'persona_03', label: 'Persona 003', note: 'contribuição do público / travessia densa', speed: 24, rhythm: 0.65, field: 0.74, hue: 45, spriteIndex: 81 },
   ];
 
   const CHARACTER_TYPES = PARTICIPANT_CHARACTERS.reduce((types, character) => {
     types[character.type] = {
       zone: 'lower',
-      scaleMin: 10.42,
+      scaleMin: 0.42,
       scaleMax: 0.9,
       speedMin: character.type === 'persona_02' ? 0.04 : character.type === 'persona_03' ? 0.05 : 0.08,
       speedMax: character.type === 'persona_02' ? 0.42 : character.type === 'persona_03' ? 0.5 : 0.55,
