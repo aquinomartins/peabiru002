@@ -5,11 +5,11 @@ const connectionStatus = document.querySelector('#connectionStatus');
 
 const { CHARACTER_SHEETS } = window.CorreriaCharacters;
 const SHEETS = CHARACTER_SHEETS;
-const PARTICIPANT_LIMIT = 180;
+const PARTICIPANT_LIMIT = 80;
 const EVAPORATION_TIME = 1000 * 60 * 2;
 const INITIAL_CROWD_MULTIPLIER = 3;
 const CHARACTER_DISPLAY_SCALE = 1.25;
-const CROWD_TOP_RATIO = 1.38;
+const CROWD_TOP_RATIO = 0.18;
 const CROWD_BOTTOM_RATIO = 1.94;
 
 const sheets = new Map();
