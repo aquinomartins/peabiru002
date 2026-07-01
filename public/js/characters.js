@@ -23,7 +23,7 @@
   const CHARACTER_TYPES = PARTICIPANT_CHARACTERS.reduce((types, character) => {
     types[character.type] = {
       zone: 'lower',
-      scaleMin: 0.42,
+      scaleMin: 10.42,
       scaleMax: 0.9,
       speedMin: character.type === 'persona_02' ? 0.04 : character.type === 'persona_03' ? 0.05 : 0.08,
       speedMax: character.type === 'persona_02' ? 0.42 : character.type === 'persona_03' ? 0.5 : 0.55,
