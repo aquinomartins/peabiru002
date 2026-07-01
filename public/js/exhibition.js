@@ -73,7 +73,7 @@ class Peep {
     const fade = dissolveFactor(this, Date.now());
     if (fade <= 0) return;
     const bobProgress = (this.progress * 10 / 0.25) % 1;
-    const bob = bobProgress < 0.5 ? bobProgress * 2 : (1 - bobProgress) * 2;
+    const bob = bobProgress < 0.05 ? bobProgress * 2 : (1 - bobProgress) * 2; //const bob = bobProgress < 0.5 ? bobProgress * 2 : (1 - bobProgress) * 2;
     const y = this.anchorY - (10 * bob);
 
     context.save();
