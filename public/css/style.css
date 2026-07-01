@@ -117,8 +117,9 @@ select {
 }
 .persona-preview {
   display: block;
-  width: 100%;
+  width: min(100%, calc(7.4rem * 2048 / 1290 * 7 / 15));
   height: 7.4rem;
+  justify-self: center;
   border-radius: 18px;
   background-repeat: no-repeat;
   background-size: 1500% 700%;
@@ -126,5 +127,5 @@ select {
   filter: drop-shadow(0 14px 18px rgba(32, 28, 22, 0.16));
 }
 @media (max-width: 680px) {
-  .persona-preview { grid-row: span 2; height: 6rem; }
+  .persona-preview { grid-row: span 2; width: min(100%, calc(6rem * 2048 / 1290 * 7 / 15)); height: 6rem; }
 }
