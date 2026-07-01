@@ -10,7 +10,7 @@ const EVAPORATION_TIME = 1000 * 60 * 2;
 const INITIAL_CROWD_MULTIPLIER = 3;
 const CHARACTER_DISPLAY_SCALE = 1.25;
 const CROWD_TOP_RATIO = 0.38;
-const CROWD_BOTTOM_RATIO = 0.94;
+const CROWD_BOTTOM_RATIO = 10.94;
 
 const sheets = new Map();
 const allPeeps = [];
