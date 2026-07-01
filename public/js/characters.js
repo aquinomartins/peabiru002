@@ -20,7 +20,7 @@
     { type: 'persona_03', label: 'Persona 003', note: 'contribuição do público / travessia densa', speed: 0.24, rhythm: 0.65, field: 0.74, hue: 45, spriteIndex: 81 },
   ];
 
-  /*const CHARACTER_TYPES = PARTICIPANT_CHARACTERS.reduce((types, character) => {
+  const CHARACTER_TYPES = PARTICIPANT_CHARACTERS.reduce((types, character) => {
     types[character.type] = {
       zone: 'lower',
       scaleMin: 0.42,
@@ -33,24 +33,6 @@
       fieldMax: character.type === 'persona_01' ? 0.85 : 1,
       radiusMin: character.type === 'persona_01' ? 0.07 : character.type === 'persona_02' ? 0.1 : 0.09,
       radiusMax: character.type === 'persona_01' ? 0.18 : 0.24,
-      spriteIndex: character.spriteIndex,
-      hue: character.hue,
-    };
-    return types;
-  }*/
-  const CHARACTER_TYPES = PARTICIPANT_CHARACTERS.reduce((types, character) => {
-    types[character.type] = {
-      zone: 'lower',
-      scaleMin: 0.42,
-      scaleMax: 0.9,
-      speedMin: character.type === 'persona_02' ? 0.004 : character.type === 'persona_03' ? 0.05 : 0.008,
-      speedMax: character.type === 'persona_02' ? 0.042 : character.type === 'persona_03' ? 0.05 : 0.055,
-      rhythmMin: character.type === 'persona_01' ? 0.035 : 0.025,
-      rhythmMax: character.type === 'persona_01' ? 0.14 : character.type === 'persona_02' ? 0.115 : 0.125,
-      fieldMin: character.type === 'persona_01' ? 0.018 : character.type === 'persona_02' ? 0.022 : 0.02,
-      fieldMax: character.type === 'persona_01' ? 0.085 : 0.1,
-      radiusMin: character.type === 'persona_01' ? 0.007 : character.type === 'persona_02' ? 0.01 : 0.009,
-      radiusMax: character.type === 'persona_01' ? 0.018 : 0.024,
       spriteIndex: character.spriteIndex,
       hue: character.hue,
     };
