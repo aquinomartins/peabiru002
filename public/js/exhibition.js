@@ -275,7 +275,7 @@ socket.on('scene:reset', () => {
 });
 
 function updatePeepPosition(peep, dt) {
-  peep.progress += (dt * peep.timeScale) / 1;
+  peep.progress += (dt * peep.timeScale) / 20;
   if (peep.progress >= 1) {
     if (peep.participant) resetPeep(peep);
     else {
